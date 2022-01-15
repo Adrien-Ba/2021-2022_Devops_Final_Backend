@@ -54,6 +54,23 @@ jobs:
           environment:
             DATABASE_URL: postgres://psqluer:psqlpassword@localhost:5432/psqluer
 
+  back-deploy-heroku:
+    docker:
+      - image: buildpack-deps:trusty
+    steps:
+      - checkout
+      - run:
+          name: Heroku Deploy
+          command: git push https://heroku:$HEROKU_KEY@git.heroku.com/protected-mesa-89495.git HEAD:main 
+      - run:
+          name: Smoke Test
+          command: |
+            HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://protected-mesa-89495.herokuapp.com/`
+            if [ "$HTTPCODE" -ne 200 ];then
+                echo "heroku app not responding, failing deploy"
+                exit 1
+            fi
+
 workflows:
   version: 2
   build-test-and-lint:
@@ -68,3 +85,12 @@ workflows:
       - lint:
           requires:
             - build
+      - back-deploy-heroku:
+          requires:
+            - build
+            - lint
+            - back-test-e2e
+            - back-test-unit
+          filters:
+            branches:
+              only: main
