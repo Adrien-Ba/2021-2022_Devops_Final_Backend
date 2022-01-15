@@ -1,6 +1,5 @@
 version: 2
 jobs:
-
   build: &shared-config
     docker:
       - image: circleci/node:lts-fermium
