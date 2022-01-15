@@ -1,5 +1,9 @@
 <h1 align="center">Welcome to 2021-2022-devops-final-backend 👋</h1>
 
+
+Here is my rendering for the Devops lab. This git corresponds to the backend of the application.<br/>
+(A clean repository was created today in order to respect the gitmoji convention during my commits, I did not succeed all in the first time)<br/>
+
 > The back end to my new startup idea
 
 ## Installation
